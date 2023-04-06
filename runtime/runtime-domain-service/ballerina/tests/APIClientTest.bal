@@ -4348,8 +4348,20 @@ function createAPIDataProvider() returns map<[string, string, API, model:ConfigM
     model:Httproute prodhttpRouteWithOperationPolicies = getMockHttpRouteWithOperationPolicies(api, apiUUID, backenduuid, PRODUCTION_TYPE, organiztion1);
     model:Httproute prodhttpRouteWithAPIPolicies = getMockHttpRouteWithAPIPolicies(api, apiUUID, backenduuid, PRODUCTION_TYPE, organiztion1);
     model:Httproute prodhttpRouteWithOperationRateLimits = getMockHttpRouteWithOperationRateLimits(api, apiUUID, backenduuid, PRODUCTION_TYPE, organiztion1);
+    string locationUrl = runtimeConfiguration.baseURL.url + "/apis/" + k8sapiUUID;
 
-    CreatedAPI createdAPI = {body: {name: "PizzaAPI", context: "/pizzaAPI/1.0.0", 'version: "1.0.0", id: k8sapiUUID, createdTime: "2023-01-17T11:23:49Z"}};
+    CreatedAPI createdAPI = {body: {name: "PizzaAPI", context: "/pizzaAPI/1.0.0", 'version: "1.0.0", id: k8sapiUUID, createdTime: "2023-01-17T11:23:49Z", endpointConfig: {"production_endpoints":{"url":"https://localhost"}}, operations: [{"target":"/*","verb":"GET","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"PUT","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"POST","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"DELETE","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"PATCH","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}}]}, headers: {location:locationUrl}};
+
+    CreatedAPI createdSandboxOnlyAPI = {body: {name: "PizzaAPI", context: "/pizzaAPI/1.0.0", 'version: "1.0.0", id: k8sapiUUID, createdTime: "2023-01-17T11:23:49Z", endpointConfig: {"sandbox_endpoints":{"url":"https://localhost"}}, operations: [{"target":"/*","verb":"GET","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"PUT","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"POST","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"DELETE","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"PATCH","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}}]}, headers: {location:locationUrl}};
+
+    CreatedAPI CreatedAPIWithOperationPolicies = {body: {name: "PizzaAPI", context: "/pizzaAPI/1.0.0", 'version: "1.0.0", id: k8sapiUUID, createdTime: "2023-01-17T11:23:49Z", endpointConfig: {"production_endpoints":{"url":"https://localhost"}}, operations: [{"target":"/*","verb":"GET","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[{"policyName":"addHeader","policyVersion":"v1","parameters":{"headerName":"customadd","headerValue":"customvalue"}}],"response":[{"policyName":"removeHeader","policyVersion":"v1","parameters":{"headerName":"content-length"}}]}},{"target":"/*","verb":"PUT","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"POST","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"DELETE","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"PATCH","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}}]}, headers: {location:locationUrl}};
+
+    CreatedAPI CreatedAPIWithAPIPolicies = {body: {name: "PizzaAPI", context: "/pizzaAPI/1.0.0", 'version: "1.0.0", id: k8sapiUUID, createdTime: "2023-01-17T11:23:49Z", endpointConfig: {"production_endpoints":{"url":"https://localhost"}}, operations: [{"target":"/*","verb":"GET","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"PUT","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"POST","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"DELETE","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"PATCH","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}}], apiPolicies: {"request":[{"policyName":"addHeader","policyVersion":"v1","parameters":{"headerName":"customadd","headerValue":"customvalue"}}],"response":[{"policyName":"removeHeader","policyVersion":"v1","parameters":{"headerName":"content-length"}}]}}, headers: {location:locationUrl}};
+
+    CreatedAPI CreatedAPIWithOperationRateLimits = {body: {name: "PizzaAPI", context: "/pizzaAPI/1.0.0", 'version: "1.0.0", id: k8sapiUUID, createdTime: "2023-01-17T11:23:49Z", endpointConfig: {"production_endpoints":{"url":"https://localhost"}}, operations: [{"target":"/*","verb":"GET","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]},"operationRateLimit":{"requestsPerUnit":10,"unit":"Minute"}},{"target":"/*","verb":"PUT","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"POST","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"DELETE","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"PATCH","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}}]}, headers: {location:locationUrl}};
+
+    CreatedAPI CreatedAPIWithAPIRateLimits = {body: {name: "PizzaAPI", context: "/pizzaAPI/1.0.0", 'version: "1.0.0", id: k8sapiUUID, createdTime: "2023-01-17T11:23:49Z", endpointConfig: {"production_endpoints":{"url":"https://localhost"}}, operations: [{"target":"/*","verb":"GET","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"PUT","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"POST","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"DELETE","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}},{"target":"/*","verb":"PATCH","authTypeEnabled":true,"scopes":[],"operationPolicies":{"request":[],"response":[]}}], apiRateLimit: {"requestsPerUnit":10,"unit":"Minute"}}, headers: {location:locationUrl}};
+
     commons:APKError productionEndpointNotSpecifiedError = error("Production Endpoint Not specified", message = "Endpoint Not specified", description = "Production Endpoint Not specified", code = 90911, statusCode = 400);
     commons:APKError sandboxEndpointNotSpecifiedError = error("Sandbox Endpoint Not specified", message = "Endpoint Not specified", description = "Sandbox Endpoint Not specified", code = 90911, statusCode = 400);
     commons:APKError k8sLevelError = error("Internal Error occured while deploying API", code = 909000, message
@@ -4441,7 +4453,7 @@ function createAPIDataProvider() returns map<[string, string, API, model:ConfigM
                 (),
                 (),
                 k8sapiUUID,
-                createdAPI.toBalString()
+                createdSandboxOnlyAPI.toBalString()
             ]
         ,
             "5": [
@@ -4692,7 +4704,7 @@ function createAPIDataProvider() returns map<[string, string, API, model:ConfigM
                 (),
                 (),
                 k8sapiUUID,
-                createdAPI.toBalString()
+                CreatedAPIWithOperationPolicies.toBalString()
             ]
         ,
             "17": [
@@ -4713,7 +4725,7 @@ function createAPIDataProvider() returns map<[string, string, API, model:ConfigM
                 (),
                 (),
                 k8sapiUUID,
-                createdAPI.toBalString()
+                CreatedAPIWithAPIPolicies.toBalString()
             ]
         ,
             "18": [
@@ -4755,7 +4767,7 @@ function createAPIDataProvider() returns map<[string, string, API, model:ConfigM
                 getMockResourceRateLimitPolicy(apiWithOperationRateLimits, organiztion1),
                 getMockRateLimitResponse(getMockResourceRateLimitPolicy(apiWithOperationRateLimits, organiztion1).clone()),
                 k8sapiUUID,
-                createdAPI.toBalString()
+                CreatedAPIWithOperationRateLimits.toBalString()
             ]
         ,
             "20": [
@@ -4776,7 +4788,7 @@ function createAPIDataProvider() returns map<[string, string, API, model:ConfigM
                 getMockAPIRateLimitPolicy(apiWithAPIRateLimits, organiztion1),
                 getMockRateLimitResponse(getMockAPIRateLimitPolicy(apiWithAPIRateLimits, organiztion1).clone()),
                 k8sapiUUID,
-                createdAPI.toBalString()
+                CreatedAPIWithAPIRateLimits.toBalString()
             ]
         };
         return data;
